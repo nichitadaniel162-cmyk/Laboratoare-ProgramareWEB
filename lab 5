@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Laborator 5</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h2 { text-align: center; }
+        .flex-container {
+            display: flex;
+            gap: 20px;
+        }
+        .left-panel, .right-panel {
+            flex: 1;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            font-family: monospace;
+            padding: 10px;
+            box-sizing: border-box;
+            background: #2d2d2d;
+            color: #ccc;
+        }
+        .controls {
+            margin-top: 10px;
+        }
+        button {
+            padding: 8px 15px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+        .console {
+            width: 100%;
+            height: 200px;
+            background: #eee;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .menu {
+            margin-bottom: 20px;
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .menu button { margin: 5px; }
+        #testBox {
+            margin-top: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px dashed #999;
+            transition: background-color 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Programare Web - 05</h2>
+
+    <div class="menu">
+        <button onclick="incarcaEx(0)">Ex. 1 (Sincron)</button>
+        <button onclick="incarcaEx(1)">Ex. 2 (Asincron)</button>
+        <button onclick="incarcaEx(2)">Ex. 3 (Callback)</button>
+        <button onclick="incarcaEx(3)">Ex. 4 (Timeout)</button>
+        <button onclick="incarcaEx(4)">Ex. 5 (Culoare - setTimeout)</button>
+        <button onclick="incarcaEx(5)">Ex. 6 (Culoare - setInterval)</button>
+    </div>
+
+    <div class="flex-container">
+        <div class="left-panel">
+            <textarea id="codSursa">my.log("Gata de testare.");</textarea>
+            <div class="controls">
+                <button onclick="ruleaza()">RUN</button>
+                <button onclick="curata()">CLEAR</button>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div id="afisajConsola" class="console"></div>
+        </div>
+    </div>
+
+    <div id="testBox">Zona testare background</div>
+</div>
+
+<script>
+    const my = {
+        log: function(msg) {
+            const panou = document.getElementById("afisajConsola");
+            panou.innerHTML += msg + "<br>";
+            panou.scrollTop = panou.scrollHeight;
+        }
+    };
+
+    function curata() {
+        document.getElementById("afisajConsola").innerHTML = "";
+        document.getElementById("testBox").style.backgroundColor = "transparent";
+        if(window.timerCuloare) clearInterval(window.timerCuloare);
+    }
+
+    function ruleaza() {
+        const cod = document.getElementById("codSursa").value;
+        try {
+            const func = new Function(cod);
+            func();
+        } catch (e) {
+            my.log("<span style='color:red'>" + e.message + "</span>");
+        }
+    }
+
+    const varianteCod = [
+`let carti = ['Carte 1', 'Carte 2', 'Carte 3', 'Carte 4', 'Carte 5'];
+carti.forEach((c, i) => my.log((i+1) + " - " + c));`,
+
+`let carti = ['Carte 1', 'Carte 2', 'Carte 3', 'Carte 4', 'Carte 5'];
+function ArrayPlusDelay(array, delegate, delay) {
+    array.forEach(function (el, i) { 
+        setTimeout(function() { delegate(array[i], i); }, i * delay); 
+    });
+}
+ArrayPlusDelay(carti, function(obj, index) {
+    my.log((index + 1) + " - " + obj);
+}, 2000);`,
+
+`function finished() { my.log("A terminat"); }
+function thingThatTakesALongTime(cb) {
+    my.log("Incepe...");
+    setTimeout(() => { cb(); }, 1500);
+}
+thingThatTakesALongTime(finished);`,
+
+`setTimeout(() => {my.log("msg 1")}, 5000);
+setTimeout(() => {my.log("msg 2")}, 3000);
+setTimeout(() => {my.log("msg 3")}, 1000);`,
+
+`const box = document.getElementById('testBox');
+my.log("Asteapta 3 sec...");
+setTimeout(() => { box.style.backgroundColor = "lightblue"; }, 3000);`,
+
+`const box = document.getElementById('testBox');
+let c = ['lightgreen', 'pink', 'yellow'];
+let i = 0;
+if(window.timerCuloare) clearInterval(window.timerCuloare);
+window.timerCuloare = setInterval(() => {
+    box.style.backgroundColor = c[i];
+    i = (i + 1) % c.length;
+}, 5000);`
+    ];
+
+    function incarcaEx(nr) {
+        document.getElementById("codSursa").value = varianteCod[nr];
+    }
+</script>
+
+</body>
+</html>
