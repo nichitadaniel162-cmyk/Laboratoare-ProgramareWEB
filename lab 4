@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Wedding Planner - Gestiune</title>
+</head>
+<body style="background-color: #fff0f5; font-family: Tahoma, sans-serif; padding: 20px;">
+
+    <header>
+        <div align="center">
+            <h1>Wedding Planner Pro</h1>
+            <h2>Planificarea nunții în timp real</h2>
+            <p>
+                Folosiți secțiunea de mai jos pentru <strong>adăugarea serviciilor</strong>. 
+                <br><b>Atenție:</b> Datele nu se salvează după refresh.
+            </p>
+            <img src="https://cdn-icons-png.flaticon.com/128/3656/3656830.png" 
+                 alt="Verighete" width="80" height="80" title="Logo Nunta">
+        </div>
+    </header>
+
+    <hr>
+
+    <section>
+        <form id="formularServicii">
+            <fieldset style="background-color: #fff; border: 2px solid #db7093; border-radius: 8px;">
+                <legend style="color: #db7093; font-weight: bold;">Adăugare Furnizor Nou</legend>
+                
+                <label>Nume Furnizor:</label> 
+                <input type="text" name="nume" maxlength="50" size="30" placeholder="Ex: Restaurant X">
+                <br><br>
+
+                <label>Cost Estimat (RON):</label>
+                <input type="number" name="pret" max="100000" step="100">
+                <br><br>
+
+                <label>Categorie Serviciu:</label><br>
+                <select name="cat" multiple size="4">
+                    <option value="Locație" selected>Locație & Meniu</option>
+                    <option value="Foto-Video">Foto & Video</option>
+                    <option value="Muzică">Muzică / DJ</option>
+                    <option value="Decor">Decor & Flori</option>
+                </select>
+                <br><br>
+
+                <label>Status Plată:</label>
+                <input type="checkbox" name="avans" checked> Avans Plătit
+                <input type="checkbox" name="contract" disabled> Contract Semnat
+                <br><br>
+
+                <label>Notițe speciale:</label><br>
+                <textarea cols="40" rows="3" readonly>Verificați disponibilitatea înainte de a salva datele.</textarea>
+                <br><br>
+
+                <button type="submit" style="background-color: #db7093; color: white; padding: 8px 15px; border: none; border-radius: 4px;">Adaugă Furnizor</button>
+                <button type="reset" style="padding: 8px 15px;">Șterge Câmpuri</button>
+            </fieldset>
+        </form>
+    </section>
+
+    <br>
+
+    <table border="1" width="90%" bgcolor="#ffffff" align="center" style="border-collapse: collapse;">
+        <tr bgcolor="#db7093" style="color: white;">
+            <th>Serviciu / Furnizor</th>
+            <th>Categorie</th>
+            <th>Status</th>
+            <th>Cost (RON)</th>
+        </tr>
+        <tr align="center">
+            <td>Salon Events Grand</td>
+            <td>Locație</td>
+            <td>Avans 5000</td>
+            <td>45000</td>
+        </tr>
+        <tr align="center">
+            <td>Studio Foto Pro</td>
+            <td>Foto-Video</td>
+            <td>Neplătit</td>
+            <td>8500</td>
+        </tr>
+        <tr align="center">
+            <td>DJ Party</td>
+            <td>Muzică</td>
+            <td>Integral</td>
+            <td>3200</td>
+        </tr>
+        <tr>
+            <td colspan="4" align="center" bgcolor="#ffd1dc">
+                <b>Total servicii adăugate inițial: 3</b>
+            </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <div height="150" style="padding: 10px; background-color: #fff;">
+        <center><h3>Checklist</h3></center>
+        
+        <ol start="1">
+            <li>Stabilește bugetul maxim.</li>
+            <li>Caută locație disponibilă.</li>
+            <li>Semnează contractele pentru muzică și foto.</li>
+        </ol>
+
+        <ul>
+            <li>Servicii obligatorii</li>
+            <li>Servicii extra (fum greu, cabină foto)</li>
+        </ul>
+
+        <nav align="center">
+            <a href="https://www.google.ro" target="_blank">Caută idei pe Google</a> | 
+            <a href="#formularServicii">Sus la formular</a>
+        </nav>
+        <br>
+    </div>
+
+    <script>
+        // variabile simple
+        var numeEveniment = "Nunta Maria & Andrei";
+        let bugetMaxim = 100000;
+        const dataNuntii = "20.08.2026";
+
+        alert("Se incarca organizatorul pentru: " + numeEveniment);
+        console.log("Data stabilita: " + dataNuntii);
+        document.write("<center><p>Eveniment: <strong>" + numeEveniment + "</strong> | Buget: " + bugetMaxim + " RON</p></center>");
+
+        // functii
+        function calculeazaTotal(pret, cantitate) {
+            return pret * cantitate;
+        }
+
+        const aplicaDiscount = function(total, procent) {
+            return total - (total * (procent / 100));
+        };
+
+        const formatPret = (suma) => suma.toFixed(2) + " RON";
+
+        // testare functii
+        let pretMeniuri = calculeazaTotal(250, 100); 
+        let pretCuReducere = aplicaDiscount(pretMeniuri, 10);
+        console.log("Pret meniuri dupa reducere: " + formatPret(pretCuReducere));
+
+        // array cu servicii
+        let listaServicii = [
+            { furnizor: "Salon Events Grand", pret: 45000, cantitate: 1, cat: "Locație" },
+            { furnizor: "Studio Foto Pro", pret: 8500, cantitate: 1, cat: "Foto" },
+            { furnizor: "DJ Party", pret: 3200, cantitate: 1, cat: "Muzică" },
+            { furnizor: "Florăria Iris", pret: 4000, cantitate: 1, cat: "Decor" },
+            { furnizor: "Rochie", pret: 6000, cantitate: 1, cat: "Ținute" }
+        ];
+
+        console.log("Lista furnizori curenti:");
+        listaServicii.forEach(s => console.log(s.furnizor + " - " + s.cat));
+
+        let costuriPartiale = listaServicii.map(s => s.pret * s.cantitate);
+        console.log("Array cu costuri separate:", costuriPartiale);
+
+        // obiect central
+        var planificator = {
+            nume: numeEveniment,
+            locatie: "Bucuresti",
+            servicii: listaServicii,
+            
+            afiseaza: function() {
+                console.log("Lista finala de contacte:");
+                this.servicii.forEach(s => console.log(s.furnizor));
+            },
+            
+            totalAsteptat: function() {
+                return this.servicii.reduce((acc, s) => acc + (s.pret * s.cantitate), 0);
+            },
+            
+            cauta: function(numeCautat) {
+                return this.servicii.find(s => s.furnizor.toLowerCase() === numeCautat.toLowerCase());
+            }
+        };
+
+        planificator.afiseaza();
+        document.write("<center>Total estimat in aplicatie: " + formatPret(planificator.totalAsteptat()) + "</center>");
+
+        let cautare1 = planificator.cauta("Florăria Iris");
+        if(cautare1) console.log("Am gasit furnizorul:", cautare1);
+
+        let cautare2 = planificator.cauta("Trupa X");
+        if(!cautare2) console.log("Furnizorul acesta nu e in baza de date.");
+
+        // script pentru formular
+        document.getElementById('formularServicii').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+
+            let elemente = document.forms[0].elements;
+            let numeIntrodus = elemente['nume'].value;
+            let pretIntrodus = parseFloat(elemente['pret'].value);
+            let catIntrodusa = elemente['cat'].value; 
+
+            if (numeIntrodus.trim() === "") {
+                alert("Te rog sa pui un nume pentru furnizor.");
+                return;
+            }
+            if (isNaN(pretIntrodus) || pretIntrodus <= 0) {
+                alert("Pretul trebuie sa fie mai mare decat zero.");
+                return;
+            }
+
+            let serviciuNou = {
+                furnizor: numeIntrodus,
+                pret: pretIntrodus, 
+                cantitate: 1, 
+                cat: catIntrodusa
+            };
+
+            listaServicii.push(serviciuNou);
+            console.log("Furnizor adaugat:", serviciuNou);
+            alert("Furnizorul a fost salvat in lista!");
+        });
+    </script>
+</body>
+</html>
